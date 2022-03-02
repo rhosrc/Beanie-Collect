@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Beanie Baby List</h1>
+{% for beanie in beanies %}
+<div class="card">
+    <a href="{% url 'detail' beanie.id %}">
+        <div class="card-content">
+            <span class="card-title">
+                {{ beanie.name }}
+            </span>
+            <p>Animal: {{ beanie.animal }}</p>
+            <p>Description: {{ beanie.description }}</p>
+            <p>Date Acquired: {{ beanie.date_acquired }}</p>
+        </div>
+    </a>
+</div>
+{% endfor %}
+
+{% endblock %}

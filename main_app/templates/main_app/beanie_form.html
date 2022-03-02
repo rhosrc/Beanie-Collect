@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if object %}
+<h1>Edit {{ object.name }}'s Details</h1>
+{% else %}
+<h1>Add New Beanie Baby</h1>
+{% endif %}
+
+<form action="" method="POST">
+{% csrf_token %}
+<table>
+    {{ form.as_table }}
+</table>
+<input class="btn blue" type="submit" value="{% if object %} Edit {% else %} Add Beanie {% endif %}">
+{% if object %}
+<a class="btn red" href="{% url 'detail' object.id %}">Cancel</a>
+{% else %}
+<a class="btn red" href="{% url 'home' %}">Cancel</a>
+{% endif %}
+</form>
+
+{% endblock %}
