@@ -17,5 +17,6 @@ urlpatterns = [
     path('beanies/<int:beanie_id>/add_maintenance/', views.add_maintenance, name='add_maintenance'),
     path('beanies/<int:beanie_id>/assoc_accessory/<int:accessory_id>/', views.assoc_accessory, name='assoc_accessory'),
     path('beanies/<int:beanie_id>/dissoc_accessory/<int:accessory_id>/', views.dissoc_accessory, name='dissoc_accessory'),
-    path('beanies/<int:beanie_id>/add_photo/', views.add_photo, name='add_photo')
+    path('beanies/<int:beanie_id>/add_photo/', views.add_photo, name='add_photo'),
+    path('accounts/signup/', views.signup, name='signup')
 ]

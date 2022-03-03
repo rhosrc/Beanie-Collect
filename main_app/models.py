@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from datetime import date
+from django.contrib.auth.models import User
 
 LOOK_OVERS = (
     ('B', 'Brushed'),
@@ -28,6 +29,7 @@ class Beanie(models.Model):
     description = models.TextField(max_length=250)
     date_acquired = models.DateField()
     accessories = models.ManyToManyField(Accessory)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

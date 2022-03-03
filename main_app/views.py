@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Beanie, Accessory, Photo
 from .forms import MaintenanceForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 import boto3
 import uuid
@@ -17,10 +21,12 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def beanies_index(request):
     beanies = Beanie.objects.all()
     return render(request, 'beanies/index.html', {'beanies': beanies})
 
+@login_required
 def beanies_detail(request, beanie_id):
     beanie = Beanie.objects.get(id=beanie_id)
     maintenance_form = MaintenanceForm()
@@ -33,6 +39,7 @@ def beanies_detail(request, beanie_id):
         'accessories': missing_accessories
     })
 
+@login_required
 def add_maintenance(request, beanie_id):
     # 1) collect form input values
     form = MaintenanceForm(request.POST)
@@ -47,14 +54,17 @@ def add_maintenance(request, beanie_id):
     # 6) redirect the user back to the beanie baby detail page
     return redirect('detail', beanie_id=beanie_id)
 
+@login_required
 def assoc_accessory(request, beanie_id, accessory_id):
     Beanie.objects.get(id=beanie_id).accessories.add(accessory_id)
     return redirect('detail', beanie_id=beanie_id)
 
+@login_required
 def dissoc_accessory(request, beanie_id, accessory_id):
     Beanie.objects.get(id=beanie_id).accessories.remove(accessory_id)
     return redirect('detail', beanie_id=beanie_id)
 
+@login_required
 def add_photo(request, beanie_id):
     # attempt to collect the photo information from the form submission
     photo_file = request.FILES.get('photo-file')
@@ -90,37 +100,70 @@ def add_photo(request, beanie_id):
         # return response as a redirect to the client - redirects to the detail page
     return redirect('detail', beanie_id=beanie_id)
 
-
+@login_required
 def accessories_index(request):
     accessories = Accessory.objects.all()
     return render(request, 'accessories/index.html', {'accessories': accessories})
 
+@login_required
 def accessories_detail(request, accessory_id):
     accessory = Accessory.objects.get(id=accessory_id)
     return render(request, 'accessories/detail.html', {'accessory': accessory})
 
 
-class BeanieCreate(CreateView):
+def signup(request):
+    # we'll need this for our context dictionary, in case there are no errors
+    error_message = ''
+    # check for a POST request (as opposed to a GET request)
+    if request.method == 'POST':
+        # capture form inputs
+        form = UserCreationForm(request.POST)
+        # validate form inputs (make sure everything we need is there)
+        if form.is_valid():
+            # save the new user to the database
+            user = form.save()
+            # log the new user in
+            login(request, user)
+            # redirect to the Beanie Babies index page
+            return redirect('index')
+        # if form is NOT valid
+        else:
+            error_message = 'invalid sign up - please try again'
+            # redirect to signup page (/accounts/signup) and display error message
+    # If GET request
+        # render a signup page with a blank user creation form
+    form = UserCreationForm()  
+    context = {
+        'form': form,
+        'error': error_message
+    }    
+    return render(request, 'registration/signup.html', context)
+
+
+class BeanieCreate(LoginRequiredMixin, CreateView):
+    model = Beanie
+    fields = ('name', 'animal', 'description', 'date_acquired')
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class BeanieUpdate(LoginRequiredMixin, UpdateView):
     model = Beanie
     fields = ('name', 'animal', 'description', 'date_acquired')
 
-class BeanieUpdate(UpdateView):
-    model = Beanie
-    fields = ('name', 'animal', 'description', 'date_acquired')
-
-class BeanieDelete(DeleteView):
+class BeanieDelete(LoginRequiredMixin, DeleteView):
     model = Beanie
     success_url = '/beanies/'
 
-class AccessoryCreate(CreateView):
+class AccessoryCreate(LoginRequiredMixin, CreateView):
     model = Accessory
     fields = '__all__'
 
-class AccessoryUpdate(UpdateView):
+class AccessoryUpdate(LoginRequiredMixin, UpdateView):
     model = Accessory
     fields = ('name', 'color')
 
-class AccessoryDelete(DeleteView):
+class AccessoryDelete(LoginRequiredMixin, DeleteView):
     model = Accessory
     success_url = '/accessories'
 
