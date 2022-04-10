@@ -24,7 +24,7 @@ A simple Django app for cataloguing and collecting your beanie baby collection. 
 
 ## Getting Started
 
-[Click the link]() to get started. After you sign up, check the navigation bar! You will have the option to add new beanie babies or beanie baby accessories you associate with them. You can also view the image gallery for your beanie baby and upload new images to it! Click individual gallery images to expand them.
+[Click the link](https://beaniecollect.herokuapp.com/) to get started. After you sign up, check the navigation bar! You will have the option to add new beanie babies or beanie baby accessories you associate with them. You can also view the image gallery for your beanie baby and upload new images to it! Click individual gallery images to expand them.
 
 ## Future Enhancements
 
