@@ -6,6 +6,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('beanies/', views.beanies_index, name='index'),
     path('beanies/<int:beanie_id>/', views.beanies_detail, name='detail'),
+    path('beanies/<int:beanie_id>/gallery/', views.beanie_gallery, name='gallery'),
     path('beanies/create/', views.BeanieCreate.as_view(), name='beanies_create'),
     path('beanies/<int:pk>/update/', views.BeanieUpdate.as_view(), name='beanies_update'),
     path('beanies/<int:pk>/delete/', views.BeanieDelete.as_view(), name='beanies_delete'),
@@ -18,5 +19,6 @@ urlpatterns = [
     path('beanies/<int:beanie_id>/assoc_accessory/<int:accessory_id>/', views.assoc_accessory, name='assoc_accessory'),
     path('beanies/<int:beanie_id>/dissoc_accessory/<int:accessory_id>/', views.dissoc_accessory, name='dissoc_accessory'),
     path('beanies/<int:beanie_id>/add_photo/', views.add_photo, name='add_photo'),
+    path('beanies/<int:beanie_id>/gallery/<int:photo_id>/delete>', views.photo_delete, name='photo_delete'),
     path('accounts/signup/', views.signup, name='signup')
 ]

@@ -23,7 +23,7 @@ def about(request):
 
 @login_required
 def beanies_index(request):
-    beanies = Beanie.objects.all()
+    beanies = Beanie.objects.filter(user=request.user)
     return render(request, 'beanies/index.html', {'beanies': beanies})
 
 @login_required
@@ -38,6 +38,7 @@ def beanies_detail(request, beanie_id):
         'maintenance_form': maintenance_form,
         'accessories': missing_accessories
     })
+
 
 @login_required
 def add_maintenance(request, beanie_id):
@@ -98,7 +99,12 @@ def add_photo(request, beanie_id):
             print(error)
             print('*********************')
         # return response as a redirect to the client - redirects to the detail page
-    return redirect('detail', beanie_id=beanie_id)
+    return redirect('gallery', beanie_id=beanie_id)
+
+@login_required
+def photo_delete(request, beanie_id, photo_id):
+    Photo.objects.get(id=photo_id).delete()
+    return redirect('gallery', beanie_id=beanie_id)
 
 @login_required
 def accessories_index(request):
@@ -110,6 +116,12 @@ def accessories_detail(request, accessory_id):
     accessory = Accessory.objects.get(id=accessory_id)
     return render(request, 'accessories/detail.html', {'accessory': accessory})
 
+@login_required
+def beanie_gallery(request, beanie_id):
+    beanie = Beanie.objects.get(id=beanie_id)
+    return render(request, 'beanies/gallery.html', {
+        'beanie': beanie,
+    })
 
 def signup(request):
     # we'll need this for our context dictionary, in case there are no errors
@@ -166,4 +178,5 @@ class AccessoryUpdate(LoginRequiredMixin, UpdateView):
 class AccessoryDelete(LoginRequiredMixin, DeleteView):
     model = Accessory
     success_url = '/accessories'
+
 

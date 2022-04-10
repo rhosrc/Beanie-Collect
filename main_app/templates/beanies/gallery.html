@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1><a href="{% url 'detail' beanie.id %}">{{ beanie.name }}</a>'s Gallery</h1>
+
+<form enctype="multipart/form-data" action="{% url 'add_photo' beanie.id %}" class="card-panel" method="POST">
+    {% csrf_token %}
+    <input type="file" name="photo-file">
+    <br>
+    <br>
+    <button class="btn green">Upload Photo</button>
+</form>
+
+    <div class="row">
+        
+        {% for photo in beanie.photo_set.all %}
+        <div class="col 14 m6 s12">
+            <div class="gall-card card">
+                <div class="gall-box card-content">    
+                    <img src="{{ photo.url }}" alt="{{ beanie.name }}" class="gall-img responsive-img card materialboxed">
+                </div>
+                <div class="card-action">
+                    <a class='btn red' href="{% url 'photo_delete' beanie.id photo.id %}">Delete Photo</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <div class="card-panel teal-text center-align">
+                No Photos Uploaded
+            </div>
+        {% endfor %}
+        
+    </div>
+
+
+
+
+   
+
+
+{% endblock %}

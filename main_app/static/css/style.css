@@ -13,6 +13,24 @@ nav {
     background-color: #93B5E1;
 }
 
+.gall-box {
+    
+    height: 400px;
+    text-align: center;
+    overflow: hidden;
+    margin: auto;
+}
+
+.gall-card {
+    max-width: 100%;
+    
+}
+
+.gall-img {
+    object-fit: cover;
+}
+
+
 footer {
     padding-top: 0;
     text-align: right;

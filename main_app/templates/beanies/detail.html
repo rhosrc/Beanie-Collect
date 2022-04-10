@@ -19,19 +19,14 @@
                 <a href="{% url 'beanies_delete' beanie.id %}">Delete</a>
             </div>
         </div>
-        {% for photo in beanie.photo_set.all %}
-            <img src="{{ photo.url }}" alt="{{ beanie.name }}" class="responsive-img card-panel">
-        {% empty %}
-            <div class="card-panel teal-text center-align">No Photos Uploaded</div>
-        {% endfor %}
-
-        <form enctype="multipart/form-data" action="{% url 'add_photo' beanie.id %}" class="card-panel" method="POST">
-            {% csrf_token %}
-            <input type="file" name="photo-file">
-            <br>
-            <br>
-            <button class="btn green">Upload Photo</button>
-        </form>
+        {% if beanie.photo_set.count %}
+        <h5>Most Recent Image</h5>
+        <img src="{{ beanie.photo_set.last.url }}" alt="{{ beanie.name }}" class="responsive-img card-panel">
+        {% else %}
+        <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+        {% endif %}
+        <a href="{% url 'gallery' beanie.id %}" class="btn blue">View Image Gallery</a>
+        
     </div>
     <div class="col m6 s12">
         <form action="{% url 'add_maintenance' beanie.id %}" method="POST">
