@@ -1,6 +1,6 @@
 # Beanie Collect
 
-A simple Django app for cataloguing and collecting your beanie baby collection. Using Django authentication, users are able to create beanie baby entries and add details to them. This app also uses Amazon S3, allowing users to upload images of their beanie babies as part of an image gallery.
+A simple Django app for cataloguing and collecting your beanie baby collection. Using Django authentication, users can create beanie baby entries and modify their details. This app also uses Amazon S3, allowing users to upload images of their beanie babies as part of an image gallery.
 
 ## Technologies Used
 
@@ -9,6 +9,7 @@ A simple Django app for cataloguing and collecting your beanie baby collection. 
 - Materialize CSS
 - JavaScript
 - Heroku
+- Amazon Web Services (S3)
 
 ## Screenshots
 
@@ -24,8 +25,10 @@ A simple Django app for cataloguing and collecting your beanie baby collection. 
 
 ## Getting Started
 
-[Click the link](https://beaniecollect.herokuapp.com/) to get started. After you sign up, check the navigation bar! You will have the option to add new beanie babies or beanie baby accessories you associate with them. You can also view the image gallery for your beanie baby and upload new images to it! Click individual gallery images to expand them.
+[Click the link](https://beaniecollect.herokuapp.com/) to get started. After you sign up, check the navigation bar! You will have the option to add new beanie babies or beanie baby accessories you'd like to associate with them. You can also view the image gallery for your beanie baby and upload new images to it! Click individual gallery images to expand them.
 
 ## Future Enhancements
 
-I would like to further style the image gallery, so that it offers users the option of cancel image deletion. I would also like to give users the option of choosing the featured beanie baby image on the detail page.
+1. I would like to further style the image gallery, so that it offers users the option of confirming/cancelling image deletion.
+
+2. I would also like to give users the option of choosing the featured beanie baby image on its detail page.
